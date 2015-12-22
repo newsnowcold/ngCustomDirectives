@@ -2,9 +2,9 @@
     angular.module('app', [
             'ngMaterial',
             'directives.custom-range-date-picker'
-        ]).
+        ])
 
-    controller('appCtrl', ['$scope', function ($scope) {
+    .controller('appCtrl', ['$scope', function ($scope) {
         var GlobalStartDate = new Date(),
             GlobalEndDate = GlobalStartDate.setDate(GlobalStartDate.getDate() + 1)
 
@@ -12,6 +12,7 @@
             startDate: GlobalStartDate,
             endDate: new Date(GlobalEndDate),
             defaultOptionIndex: 0,
+            format: '',
             options: [
                 {
                     label: 'Past 7 days',
