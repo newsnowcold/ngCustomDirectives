@@ -37,8 +37,8 @@ angular.module('directives.custom-range-date-picker',[])
                  layout="row" \
                  layout-align="space-between center" \
                  class="custom-date-range"> \
-                <md-datepicker ng-model="startDate" md-placeholder="Enter date"></md-datepicker> \
-                <md-datepicker ng-model="endDate" md-placeholder="Enter date"></md-datepicker> \
+                <md-datepicker ng-model="customDates.startDate" md-placeholder="Enter date"></md-datepicker> \
+                <md-datepicker ng-model="customDates.endDate" md-placeholder="Enter date"></md-datepicker> \
              </div> \
             <div class="footer" \
                  layout="row" \
@@ -58,6 +58,7 @@ angular.module('directives.custom-range-date-picker',[])
             *        startDate: date,
             *        endDate: date,
             *        defaultOptionIndex: int,
+            *        format: string,
             *        options: [
             *            {
             *                label: string,
@@ -73,35 +74,45 @@ angular.module('directives.custom-range-date-picker',[])
         },
         link: function (scope, elem, attrs, ngModel) {
                 /**
-                *   when the user select an option, this function is called
-                *   and it updates selected option index and also the action
-                *   when the user click save button
+                *   open/close the selector/dropdown of date range options
                 **/
             var openOptionsSelection = function () {
+                    //variable use for modal selector ngShow
                     scope.isOptionSelectionOpen = !scope.isOptionSelectionOpen;
                 },
+
+                /**
+                *   when the user select an option, this function is called
+                *   and it updates selected option index and also the prepares
+                *    the action that will be use when user click save button
+                **/
                 optionSelected = function (label) {
                     var options = scope.options,
                         length = options.length;
 
+                    //find the label from array of options
                     for (var i = 0; i < length; i++) {
                         var option = options[i];
 
+                        // if found get the function and its index and update
+                        // the label of the selector/dropdown
                         if (option.label == label) {
-                            selectedOptionAction = option.func;
+                            scope.selectedOptionAction = option.func;
                             scope.optionIndex = i;
                             scope.temptSelectedOptionLabel = option.label;
                             break;
                         }
                     }
 
+                    //close the option selector/dropdown
                     scope.isOptionSelectionOpen = false;
                 },
 
                 /**
-                *   open/close option selection modal
+                *    open/close the modal where user select a date range option
                 **/
                 openDateRangeOptionSelection = function () {
+                    scope.errorMessages = [];
                     scope.isSelectionOpen = !scope.isSelectionOpen;
                 },
 
@@ -109,15 +120,16 @@ angular.module('directives.custom-range-date-picker',[])
                 *   validate dates
                 **/
                 validStartEndDate = function () {
-                    var result = true;
+                    var result = true,
+                        dates = scope.customDates;
 
-                    if (  !scope.startDate
-                        ||!scope.endDate) {
+                    if (  !dates.startDate
+                        ||!dates.endDate) {
                         result = false;
-                    } else if (scope.startDate > scope.endDate) {
+                    } else if (dates.startDate > dates.endDate) {
                         result = false;
-                    } else if (scope.startDate == 'Invalid Date'
-                        ||!scope.endDate == 'Invalid Date') {
+                    } else if (dates.startDate == 'Invalid Date'
+                        ||!dates.endDate == 'Invalid Date') {
                         result = false;
                     }
 
@@ -128,36 +140,67 @@ angular.module('directives.custom-range-date-picker',[])
                 *   check for null dates and return an error
                 **/
                 validateDates = function () {
-                    var result = true;
+                    var result = true,
+                        dates = scope.customDates;
 
                     scope.errorMessages = [];
 
-                    if (   !scope.startDate
-                        || !scope.endDate) {
-                        // Show specific error
-                        if (   !scope.startDate
-                            && !scope.endDate) {
+                    //check for null errors
+                    if (   !dates.startDate
+                        || !dates.endDate) {
+                        if (   !dates.startDate
+                            && !dates.endDate) {
                             scope.errorMessages.push('Error no dates');
                             result = false;
-                        } else if (!scope.startDate) {
+                        } else if (!dates.startDate) {
                             scope.errorMessages.push('Error no start date');
                             result = false;
                         } else {
-                            scope.errorMessages.push('Error no end date');
+                            dates.errorMessages.push('Error no end date');
                             result = false;
                         }
                         return result;
                     }
 
-                    // Actual validation
+                    // check if dates starting date is not greater than end date
+                    // and if dates are valids
                     if (!validStartEndDate()) {
-                        // Invalid dates
                         scope.errorMessages.push('Error invalid dates');
                         result = false;
                         return result;
                     }
 
                     return result;
+                },
+
+                /**
+                *   create a label according to its format
+                **/
+                createLabel = function (datePeriod) {
+                    var toLabel = (datePeriod)? datePeriod :
+                                                scope.customDates,
+                        startDate = toLabel.startDate,
+                        endDate = toLabel.endDate,
+                        format = scope.config.format;
+
+                    return $filter('date')(startDate, format)
+                        +' - '
+                        + $filter('date')(endDate, format)
+                },
+
+                /**
+                *   reset custom date to default values
+                **/
+                resetDefaultCustomDate = function () {
+                    var today = new Date();
+
+                    scope.customDates = {
+                        startDate: new Date(today.getFullYear(),
+                                            today.getMonth(), 1),
+                        endDate: new Date()
+                    };
+
+                    console.log(moment(new Date()).format('YYYY-MM-DD'))
                 },
 
                 /**
@@ -170,18 +213,28 @@ angular.module('directives.custom-range-date-picker',[])
                 *   close custom date range picker, save and update values
                 **/
                 save = function () {
+
                     if (validateDates()) {
-                        var dates = selectedOptionAction();
+                        var dates = scope.selectedOptionAction();
 
+                        //updates values of the model from main controller
                         scope.config.startDate = dates.startDate;
-
                         scope.config.endDate = dates.endDate;
+
+                        scope.selectedOptionLabel = scope.temptSelectedOptionLabel
+
+                        if (scope.temptSelectedOptionLabel === 'Custom period') {
+                            scope.selectedOptionLabel =
+                                                createLabel(scope.customDates);
+                        }
 
                         scope.isSelectionOpen = false;
                     }
-                },
+                };
 
-                selectedOptionAction;
+            // this variable will hold the function that will be use to
+            // to calculate start date and end date when user click save
+            scope.selectedOptionAction;
 
             //initialize an array object to store error messages
             scope.errorMessages = [];
@@ -190,20 +243,15 @@ angular.module('directives.custom-range-date-picker',[])
 
             scope.save = save;
 
-            scope.openOptionsSelection = false;
-
-            //models for custom date option
-            scope.customDates = {
-                startDate: new Date(new Date().getFullYear(),
-                                         new Date().getMonth(), 1),
-                endDate: new Date()
-            };
-
             scope.openDateRangeOptionSelection = openDateRangeOptionSelection;
 
-            scope.startDate = scope.config.startDate;
-
-            scope.endDate = scope.config.endDate;
+            //models for custom date option
+            // scope.customDates = {
+            //     startDate: new Date(new Date().getFullYear(),
+            //                              new Date().getMonth(), 1),
+            //     endDate: new Date()
+            // };
+            resetDefaultCustomDate();
 
             scope.options = scope.config.options;
 
@@ -211,43 +259,25 @@ angular.module('directives.custom-range-date-picker',[])
             scope.options.push({
                 label: 'Custom period',
                 func: function () {
-                    var selectedDates = scope.customDates;
-
-                    if (   selectedDates.startDate
-                        && selectedDates.endDate) {
-
-                        if (typeof selectedDates.startDate == 'object') {
-                            selectedDates.startDate =
-                                            selectedDates.startDate.getTime();
-                        } else {
-                            selectedDates.startDate =
-                                            selectedDates.startDate;
-                        }
-
-                        if (typeof selectedDates.endDate == 'object') {
-                            selectedDates.endDate =
-                                            selectedDates.endDate.getTime();
-                        } else {
-                            selectedDates.endDate = selectedDates.endDate;
-                        }
-                    }
-
-                    scope.custom = selectedDates;
-                    return scope.custom;
+                    return scope.customDates;
                 }
             });
 
+            // get the default option index
             scope.optionIndex = scope.config.defaultOptionIndex;
 
+            //get the default option label
             scope.selectedOptionLabel = scope.options[scope.optionIndex]['label'];
 
+            //get the default option label for the dropdown
             scope.temptSelectedOptionLabel = scope.selectedOptionLabel;
 
             //assign the default action of the default option
-            selectedOptionAction = scope.options[scope.optionIndex]['func'];
+            scope.selectedOptionAction = scope.options[scope.optionIndex]['func'];
 
             scope.openOptionsSelection = openOptionsSelection;
 
+            // by default close dropdown/option selector
             scope.isOptionSelectionOpen = false;
 
             scope.optionSelected = optionSelected;
