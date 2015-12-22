@@ -11,7 +11,6 @@ angular.module('directives.custom-range-date-picker',[])
         <div class="date-label" ng-click="openDateRangeOptionSelection()"> \
             <span ng-bind="selectedOptionLabel"></span> \
         </div> \
-        <div class="date-selection-wrapper"></div> \
         <div class="date-selection" \
              layout="column" \
              ng-show="isSelectionOpen"> \
@@ -166,7 +165,6 @@ angular.module('directives.custom-range-date-picker',[])
                 **/
                 cancel = function () {
                     scope.isSelectionOpen = false;
-
                 },
                 /**
                 *   close custom date range picker, save and update values
@@ -178,6 +176,8 @@ angular.module('directives.custom-range-date-picker',[])
                         scope.config.startDate = dates.startDate;
 
                         scope.config.endDate = dates.endDate;
+
+                        scope.isSelectionOpen = false;
                     }
                 },
 
