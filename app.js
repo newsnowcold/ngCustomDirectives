@@ -29,7 +29,7 @@
                     }
                 },
                 {
-                    label: 'This month name',
+                    label: 'This month',
                     func: function () {
                         var today = new Date(),
                             startDate = new Date(today.getFullYear(),
@@ -45,7 +45,7 @@
                     }
                 },
                 {
-                    label: 'Last month name',
+                    label: 'Last month',
                     func: function () {
                         var today = new Date(),
                             startDate = new Date(today.getFullYear(),
