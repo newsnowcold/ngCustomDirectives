@@ -13,7 +13,8 @@
     right: 0;
     padding: 20px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-    background-color: #fff;
+    background: white;
+    z-index: 10;
 }
 .custom-date-range-picker-wrapper .date-label:hover,
 .custom-date-range-picker-wrapper .dropdown-label {
