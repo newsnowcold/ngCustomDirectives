@@ -1,0 +1,122 @@
+.custom-date-range-picker-wrapper {
+    position: relative;
+    font-size: 14px;
+}
+.custom-date-range-picker-wrapper div {
+    height: 40px;
+    line-height: 40px;
+}
+.custom-date-range-picker-wrapper  .date-selection {
+    position: absolute;
+    width: 380px;
+    height: auto;
+    right: 0;
+    padding: 20px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+}
+.custom-date-range-picker-wrapper .date-label:hover,
+.custom-date-range-picker-wrapper .dropdown-label {
+    cursor: pointer;
+    position: relative;
+}
+.custom-date-range-picker-wrapper .date-label{
+    padding-right: 25px;
+    font-weight: 600;
+    text-align: end;
+}
+.custom-date-range-picker-wrapper .date-label:after {
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #222222;
+    position: absolute;
+    top: 18px;
+    right: 0;
+}
+.custom-date-range-picker-wrapper .field {
+    border-bottom: solid 1px #666;
+    padding-left: 10px;
+}
+.custom-date-range-picker-wrapper .custom-date-range{
+    margin-top: 10px;
+    height: auto;
+}
+.custom-date-range-picker-wrapper .custom-range{
+    width: 140px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+.custom-date-range-picker-wrapper .custom-range.active{
+    pointer-events: auto;
+    opacity: 1;
+}
+.custom-date-range-picker-wrapper .custom-range .calendar-picker-wrapper .text.datelabel{
+    min-width: 90px;
+}
+.custom-date-range-picker-wrapper .calendar-picker-wrapper{
+    padding: 0;
+}
+.custom-date-range-picker-wrapper .calendar-picker-wrapper .icon-wrapper{
+    padding: 0;
+    margin-left: 20px;
+}
+.custom-date-range-picker-wrapper .date-selection .dropdown-options {
+    position: absolute;
+    background: #FFFDFD;
+    height: auto;
+    width: 90%;
+    z-index: 5;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.custom-date-range-picker-wrapper .date-selection .dropdown-options > div {
+    width: 100%;
+    padding: 0 20px;
+    vertical-align: bottom;
+}
+.custom-date-range-picker-wrapper .date-selection .dropdown-options > div:hover {
+    cursor: pointer;
+    background-color: rgba(48, 169, 95, 0.78);
+    color: #fff;
+}
+.custom-date-range-picker-wrapper .date-selection .dropdown-label:after {
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #666;
+    position: absolute;
+    right: -4px;
+    top: 35px;
+    -ms-transform: rotate(311deg);
+    -webkit-transform: rotate(311deg);
+    transform: rotate(311deg);
+}
+.custom-date-range-picker-wrapper .date-selection .footer{
+    margin-top: 20px;
+}
+.custom-date-range-picker-wrapper .button {
+    background-color: white;
+}
+.custom-date-range-picker-wrapper .date-selection .footer .button {
+    border: 1px solid #30A95F;
+    border-radius: 4px;
+    padding: 0 25px;
+    margin: 0;
+    height: 40px;
+}
+.custom-date-range-picker-wrapper .date-selection .footer .apply {
+    background-color: #30A95F;
+    margin-left: 8px;
+    color: white;
+    text-align: center;
+}
+.custom-date-range-picker-wrapper .error-item {
+    height: 20px;
+    line-height: 20px;
+    color: #FF5013;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.custom-date-range-picker-wrapper .md-datepicker-expand-triangle {
+    height: 0 !important;
+}
