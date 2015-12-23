@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+    /**
+    *   Unit testing for date range picker directive
+    **/
     describe('Directive: date-range-picker', function () {
         var element, scope;
 
@@ -12,6 +15,7 @@
             var GlobalStartDate = new Date(),
             GlobalEndDate = GlobalStartDate.setDate(GlobalStartDate.getDate() + 1)
 
+            //sample config object for date range picker directive
             scope.customDateConfig = {
                 startDate: GlobalStartDate,
                 endDate: new Date(GlobalEndDate),
@@ -89,8 +93,29 @@
 
         it('Append the element directive to DOM', function() {
             expect(element.html()).toContain('custom-date-range-picker-wrapper');
-            // expect(true).tobe(true);
         });
 
+        it('Open date range picker option selector', function () {
+                var button = element.find('.date-label');
+
+                button.triggerHandler('click');
+                scope.$digest();
+
+                expect(element.html())
+                    .toContain('<div class="date-selection md-layout-column" ng-show="isSelectionOpen" aria-hidden="false">');
+        })
+
+        it('Close date range picker option selector', function () {
+            var button = element.find('.date-label');
+
+            button.triggerHandler('click');
+            scope.$digest();
+
+            expect(element.html())
+                    .toContain('<div class="date-selection md-layout-column ng-hide" ng-show="isSelectionOpen" aria-hidden="true">');
+        })
     })
+    /**
+    *  End Unit testing for date range picker directive
+    **/
 })();
