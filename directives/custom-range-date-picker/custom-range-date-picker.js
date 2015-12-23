@@ -218,6 +218,7 @@ angular.module('directives.custom-range-date-picker',[])
                         //updates values of the model from main controller
                         scope.config.startDate = dates.startDate;
                         scope.config.endDate = dates.endDate;
+                        scope.config.defaultOptionIndex = scope.optionIndex;
 
                         scope.selectedOptionLabel = scope.temptSelectedOptionLabel
 

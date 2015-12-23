@@ -81,13 +81,13 @@ angular.module('directives.category-item-selector',[])
                     return index;
                 },
                 loadCategoryItems = function () {
-                    var itemsLength = scope.categories.length,
+                    var itemsLength = scope.config.length,
                         category = scope.selectedCategory,
                         items = [];
 
                         for (var i = 0; i < itemsLength; i++) {
-                            if (scope.categories[i].category == category) {
-                                items = scope.categories[i].items;
+                            if (scope.config[i].category == category) {
+                                items = scope.config[i].items;
                                 break;
                             }
                         }
@@ -96,9 +96,9 @@ angular.module('directives.category-item-selector',[])
                 openCloseSelector = function () {
                     scope.isCategoryDisplayed = !scope.isCategoryDisplayed;
 
-                    if (scope.isCategoryDisplayed) {
-                        scope.reserveCopy = angular.copy(scope.config);
-                    }
+                    scope.items = [];
+                    scope.items = loadCategoryItems();
+                    console.log(scope.items)
                 },
                 save = function () {
                     var configLength = scope.config.length,
@@ -122,7 +122,8 @@ angular.module('directives.category-item-selector',[])
                 },
                 cancel = function () {
                         scope.isCategoryDisplayed = false;
-                        scope.categories = scope.reserveCopy;
+                        scope.items[scope.selectedCategory] = undefined;
+                        console.log(scope.items)
                 },
                 reserveCopy,
                 defaultCatIndex = getDefaultCategory();
@@ -143,16 +144,14 @@ angular.module('directives.category-item-selector',[])
             scope.$watch('selectedCategory', function () {
                 scope.items = loadCategoryItems();
             });
-            // $("*").on('click', function(event) {
-            //     if (scope.displaySelector) {
-            //         if(    event.target.nodeName != 'svg'
-            //             && !$(event.target).closest(elem).length) {
-            //             prepareDataChanges();
-            //             scope.onChange();
-            //             scope.displaySelector = false;
-            //         }
-            //     }
-            // });
+
+            $("*").on('click', function(event) {
+                if (scope.isCategoryDisplayed) {
+                    if(!$(event.target).closest(elem).length) {
+                        cancel();
+                    }
+                }
+            });
         }
     }
 }]);

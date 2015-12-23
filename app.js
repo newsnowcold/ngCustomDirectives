@@ -1,7 +1,8 @@
 (function (angular) {
     angular.module('app', [
             'ngMaterial',
-            'directives.custom-range-date-picker'
+            'directives.custom-range-date-picker',
+            'directives.category-item-selector'
         ])
 
     .controller('appCtrl', ['$scope', function ($scope) {
@@ -76,6 +77,56 @@
             ]
         }
 
+
+        $scope.categorySelectorConfig = [
+                   {
+                       category: 'banana',
+                       items: [
+                           {
+                               label: 'banna1',
+                               value: true
+                           },
+                           {
+                               label: 'banna2',
+                               value: true
+                           }
+                       ]
+                   },
+                   {
+                       category: 'apple',
+                       items: [
+                           {
+                               label: 'apple1',
+                               value: true
+                           },
+                           {
+                               label: 'apple2',
+                               value: true
+                           },
+                           {
+                               label: 'apple3',
+                               value: true
+                           }
+                       ]
+                   },
+                   {
+                       category: 'coconut',
+                       items: [
+                           {
+                               label: 'coconut1',
+                               value: true
+                           },
+                           {
+                               label: 'coconut2',
+                               value: true
+                           },
+                           {
+                               label: 'coconut3',
+                               value: true
+                           }
+                       ]
+                   }
+               ]
     }])
 
 })(angular);
