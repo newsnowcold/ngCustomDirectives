@@ -199,8 +199,6 @@ angular.module('directives.custom-range-date-picker',[])
                                             today.getMonth(), 1),
                         endDate: new Date()
                     };
-
-                    console.log(moment(new Date()).format('YYYY-MM-DD'))
                 },
 
                 /**
