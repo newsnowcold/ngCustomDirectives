@@ -1,0 +1,49 @@
+.category-item-selector-wrapper {
+    height: auto;
+    width: auto;
+    position: relative;
+}
+.category-item-selector-wrapper .category-selector-label {
+    text-align: end;
+}
+
+.category-item-selector-wrapper .category-selector {
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 20px;
+    background: white;
+    z-index: 10;
+}
+
+.category-item-selector-wrapper .categories .category {
+    margin-right: 20px;
+}
+
+.category-item-selector-wrapper .category-items {
+    margin-top: 10px;
+    height: 200px;
+    overflow-y: auto;
+}
+.category-item-selector-wrapper .action-buttons {
+    float: right;
+}
+.category-item-selector-wrapper .category-item-btn {
+    border: 1px solid #5868BF;
+    border-radius: 4px;
+    height: 40px;
+    padding: 0 25px;
+    margin: 0;
+    background: white;
+}
+
+.category-item-selector-wrapper .action-buttons > button.save {
+    background: #5868BF;
+    color: white;
+}
+
+.category-item-selector-wrapper .action-buttons > button.cancel {
+    background: white;
+}
