@@ -222,7 +222,7 @@ angular.module('directives.custom-range-date-picker',[])
 
                         scope.selectedOptionLabel = scope.temptSelectedOptionLabel
 
-                        if (scope.temptSelectedOptionLabel === 'Custom period') {
+                        if (scope.temptSelectedOptionLabel == 'Custom period') {
                             scope.selectedOptionLabel =
                                                 createLabel(scope.customDates);
                         }
