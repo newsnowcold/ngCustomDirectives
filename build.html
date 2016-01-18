@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>angular directives</title>
+
+    <link rel="stylesheet" href="resources/css/mobilereset.css">
+    <link rel="stylesheet" href="resources/css/webreset.css">
+
+        <!-- Angular Material CSS using GitCDN to load directly from `bower-material/master` -->
+    <link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css">
+
+    <link rel="stylesheet" href="build/ngCustomDirective.css">
+</head>
+<body ng-controller="appCtrl" ng-cloak>
+    <custom-range-date-picker config="customDateConfig">
+    </custom-range-date-picker>
+
+    <category-item-selector
+        config="categorySelectorConfig"
+        label="select item per category"
+        default-category="apple">
+    </category-item-selector>
+
+    <br><br>
+    <span>customDateConfig</span>
+    <div>{{customDateConfig}}</div>
+    <br><br>
+
+    <div layout-padding>
+        <span>categorySelectorConfig</span>
+        <div ng-repeat="item in categorySelectorConfig">
+            <span ng-bind="item.category"></span> <br>
+            <div ng-repeat="i in item.items">
+                <span>{{i.label}}   {{i.value}}</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+
+    <script type="text/javascript" src="build/ngCustomDirective.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+
+    <!-- libraries -->
+    <script src="vendor/moment/moment-with-locales.min.js"></script>
+</body>
+</html>

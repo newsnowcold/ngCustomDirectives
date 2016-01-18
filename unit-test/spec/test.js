@@ -5,15 +5,27 @@
     *   Unit testing for date range picker directive
     **/
     describe('Directive: date-range-picker', function () {
-        var element, scope;
+        var element,
+            scope,
+            $compile,
+            $rootScope;
+
 
         beforeEach(module('app'));
 
+
+        /**
+            SET UP MODEL DATA NEEDED BY THE DIRECTIVE
+        **/
         beforeEach(inject(function($rootScope, $compile) {
             scope = $rootScope.$new();
+            $compile = $compile;
+            $rootScope = $rootScope;
+
 
             var GlobalStartDate = new Date(),
-            GlobalEndDate = GlobalStartDate.setDate(GlobalStartDate.getDate() + 1)
+                GlobalEndDate = GlobalStartDate
+                                    .setDate(GlobalStartDate.getDate() + 1)
 
             //sample config object for date range picker directive
             scope.customDateConfig = {
@@ -91,6 +103,8 @@
             scope.$digest();
         }));
 
+
+
         it('Append the element directive to DOM', function() {
             expect(element.html()).toContain('custom-date-range-picker-wrapper');
         });
@@ -103,17 +117,45 @@
 
                 expect(element.html())
                     .toContain('<div class="date-selection md-layout-column" ng-show="isSelectionOpen" aria-hidden="false">');
-        })
+        });
 
-        it('Close date range picker option selector', function () {
-            var button = element.find('.date-label');
+        it('Open dropdown of custom date range items', function () {
+            var button = element.find('.dropdown-label');
 
             button.triggerHandler('click');
             scope.$digest();
 
             expect(element.html())
-                    .toContain('<div class="date-selection md-layout-column ng-hide" ng-show="isSelectionOpen" aria-hidden="true">');
-        })
+                    .toContain('<div class="dropdown-options md-layout-column layout-align-center-center" ng-show="isOptionSelectionOpen" aria-hidden="false">');
+        });
+
+        it('Should replace the current selected date range option', function () {
+            var selectedOption = $('.dropdown-options').find('div:contains(\'Past 7 days\')');
+
+            selectedOption.triggerHandler('click');
+            scope.$digest();
+
+            expect(element.find('.dropdown-label').html())
+                .toEqual('Past 7 days');
+        });
+
+        it('Should update the start date and end date', function () {
+            var selectedOption = $('.dropdown-options').find('div:contains(\'Past 7 days\')'),
+                applyButton = $('.button .apply'),
+                config = angular.copy(scope.customDateConfig);
+
+            selectedOption.triggerHandler('click');
+            scope.$digest();
+
+            $(applyButton).triggerHandler('click');
+            scope.$digest();
+
+            config.endDate = new Date();
+            config.startDate = new Date().setDate(new Date().getDate() - 6);
+
+            // expect(scope.customDateConfig).toEqual(config);
+            console.log(scope.customDateConfig);
+        });
     })
     /**
     *  End Unit testing for date range picker directive
