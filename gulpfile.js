@@ -34,10 +34,3 @@ gulp.task('index', function() {
 gulp.task('build', function() {
     gulp.start('css', 'js', 'index');
 });
-
-// gulp.task('build', function() {
-//     gulp.src(["directives/custom-range-date-picker/*.js",
-//               "directives/category-item-selector/*.js"])
-//     .pipe(uglify())
-//     .pipe(gulp.dest('build'))
-// });
